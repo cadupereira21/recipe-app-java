@@ -1,4 +1,7 @@
 package com.cpstudio.recipe_app.recipe.dto.ingredient;
 
-public record CreateIngredientRequest(String name, int quantity) {
+import com.cpstudio.recipe_app.recipe.domain.QuantityType;
+import jakarta.validation.constraints.NotNull;
+
+public record CreateIngredientRequest(@NotNull String name, @NotNull int quantity, @NotNull QuantityType quantityType) {
 }

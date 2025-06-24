@@ -5,15 +5,23 @@ import io.micrometer.common.util.StringUtils;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface IngredientRepository extends JpaRepository<Ingredient, String> {
 
     default Ingredient updateIfExists(final String ingredientId, final Ingredient ingredient) {
-        if (ingredient == null || StringUtils.isBlank(ingredientId) || !existsById(ingredientId)) {
+        final Ingredient existingIngredient = findById(ingredientId).orElse(null);
+
+        if (existingIngredient == null) {
             return null;
         }
 
-        return save(ingredient);
+        existingIngredient.setName(ingredient.getName());
+        existingIngredient.setQuantity(ingredient.getQuantity());
+        existingIngredient.setQuantityType(ingredient.getQuantityType());
+
+        return save(existingIngredient);
     }
 
 }

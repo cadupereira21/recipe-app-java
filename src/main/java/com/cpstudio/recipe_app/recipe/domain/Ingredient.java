@@ -1,10 +1,7 @@
 package com.cpstudio.recipe_app.recipe.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.util.Set;
 
 @Entity
 @Table(name = "Ingredients")
@@ -19,9 +16,8 @@ public class Ingredient {
     private String name;
 
     @Column(nullable = false)
-    private int quantity;
+    private float quantity;
 
-    @ManyToMany(mappedBy = "ingredients", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Set<Recipe> recipes;
-
+    @Column(name = "quantity_type", nullable = false)
+    private QuantityType quantityType;
 }

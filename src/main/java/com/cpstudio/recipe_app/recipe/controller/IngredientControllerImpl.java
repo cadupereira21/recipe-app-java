@@ -2,7 +2,6 @@ package com.cpstudio.recipe_app.recipe.controller;
 
 import com.cpstudio.recipe_app.recipe.domain.Ingredient;
 import com.cpstudio.recipe_app.recipe.dto.ingredient.CreateIngredientRequest;
-import com.cpstudio.recipe_app.recipe.dto.ingredient.IngredientResponse;
 import com.cpstudio.recipe_app.recipe.dto.ingredient.UpdateIngredientRequest;
 import com.cpstudio.recipe_app.recipe.service.IngredientService;
 import io.micrometer.common.util.StringUtils;
@@ -31,8 +30,8 @@ public class IngredientControllerImpl implements IngredientController {
     }
 
     @Override
-    public ResponseEntity<IngredientResponse> createIngredient(final String recipeId, final CreateIngredientRequest request) {
-        final IngredientResponse ingredient = ingredientService.create(recipeId, request);
+    public ResponseEntity<Ingredient> createIngredient(final String recipeId, final CreateIngredientRequest request) {
+        final Ingredient ingredient = ingredientService.create(recipeId, request);
         return ResponseEntity.ok(ingredient);
     }
 

@@ -1,6 +1,5 @@
 package com.cpstudio.recipe_app.recipe.controller;
 
-import com.cpstudio.recipe_app.recipe.dto.recipe.RecipeResponse;
 import com.cpstudio.recipe_app.recipe.mapper.RecipeMapper;
 import com.cpstudio.recipe_app.recipe.domain.Recipe;
 import com.cpstudio.recipe_app.recipe.dto.recipe.CreateRecipeRequest;
@@ -24,14 +23,14 @@ public class RecipeControllerImpl implements RecipeController {
     private final RecipeService recipeService;
 
     @Override
-    public ResponseEntity<RecipeResponse> create(final CreateRecipeRequest recipe) {
-        final RecipeResponse createdRecipe = recipeService.create(recipe);
+    public ResponseEntity<Recipe> create(final CreateRecipeRequest recipe) {
+        final Recipe createdRecipe = recipeService.create(recipe);
         return ResponseEntity.ok(createdRecipe);
     }
 
     @Override
-    public ResponseEntity<List<RecipeResponse>> getAllRecipes() {
-        final List<RecipeResponse> recipes = recipeService.retrieveAll();
+    public ResponseEntity<List<Recipe>> getAllRecipes() {
+        final List<Recipe> recipes = recipeService.retrieveAll();
         return ResponseEntity.ok(recipes);
     }
 
@@ -55,7 +54,7 @@ public class RecipeControllerImpl implements RecipeController {
 
     @Override
     public ResponseEntity<Recipe> update(final String id, final UpdateRecipeRequest recipe) {
-        final Recipe updatedRecipe = recipeRepository.updateIfExists(RecipeMapper.toDomain(id, recipe));
+        final Recipe updatedRecipe = recipeService.update(id, recipe);
         return ResponseEntity.ofNullable(updatedRecipe);
     }
 

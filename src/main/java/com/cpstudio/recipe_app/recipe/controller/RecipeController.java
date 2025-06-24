@@ -3,7 +3,6 @@ package com.cpstudio.recipe_app.recipe.controller;
 import com.cpstudio.recipe_app.recipe.domain.Recipe;
 import com.cpstudio.recipe_app.recipe.dto.recipe.CreateRecipeRequest;
 import com.cpstudio.recipe_app.recipe.dto.recipe.PartialUpdateRecipeRequest;
-import com.cpstudio.recipe_app.recipe.dto.recipe.RecipeResponse;
 import com.cpstudio.recipe_app.recipe.dto.recipe.UpdateRecipeRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
@@ -16,10 +15,10 @@ import java.util.List;
 public interface RecipeController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RecipeResponse> create(@Valid @RequestBody final CreateRecipeRequest recipe);
+    public ResponseEntity<Recipe> create(@Valid @RequestBody final CreateRecipeRequest recipe);
 
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<RecipeResponse>> getAllRecipes();
+    public ResponseEntity<List<Recipe>> getAllRecipes();
 
     @GetMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity<Recipe> getRecipeById(@PathVariable final String id);

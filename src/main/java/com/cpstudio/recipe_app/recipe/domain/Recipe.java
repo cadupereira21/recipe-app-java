@@ -1,5 +1,7 @@
 package com.cpstudio.recipe_app.recipe.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -26,7 +28,7 @@ public class Recipe {
 
     private int servings;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(
         name = "recipe_ingredients",
         joinColumns = @JoinColumn(name = "recipe_id"),

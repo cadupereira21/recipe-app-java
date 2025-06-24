@@ -2,12 +2,17 @@ package com.cpstudio.recipe_app.recipe.repository;
 
 import com.cpstudio.recipe_app.recipe.domain.Recipe;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe, String> {
+
+    @Query("SELECT r FROM Recipe r JOIN r.ingredients i WHERE i.id = :ingredientId")
+    List<Recipe> findByIngredientId(@Param("ingredientId") final String ingredientId);
 
     /**
      * Finds recipes based on various filters.
@@ -18,11 +23,21 @@ public interface RecipeRepository extends JpaRepository<Recipe, String> {
      */
     List<Recipe> findByIsVegetarianAndServings(final boolean isVegetarian, final int servings);
 
-    default Recipe updateIfExists(final Recipe recipe) {
-        if (recipe == null || !existsById(recipe.getId())) {
+    default Recipe updateIfExists(final String recipeId, final Recipe recipe) {
+        final Recipe existingRecipe = findById(recipeId).orElse(null);
+
+        if (existingRecipe == null) {
             return null;
         }
-        return save(recipe);
+
+        existingRecipe.setTitle(recipe.getTitle());
+        existingRecipe.setDescription(recipe.getDescription());
+        existingRecipe.setIngredients(recipe.getIngredients());
+        existingRecipe.setInstructions(recipe.getInstructions());
+        existingRecipe.setVegetarian(recipe.isVegetarian());
+        existingRecipe.setServings(recipe.getServings());
+
+        return save(existingRecipe);
     }
 
     default Recipe partialUpdateIfExists(final Recipe recipe) {
