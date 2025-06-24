@@ -1,4 +1,4 @@
-package com.cpstudio.recipe_app.recipe.dto;
+package com.cpstudio.recipe_app.recipe.dto.recipe;
 
 import jakarta.validation.constraints.NotNull;
 

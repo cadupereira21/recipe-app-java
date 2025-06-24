@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe, String> {
@@ -48,6 +47,14 @@ public interface RecipeRepository extends JpaRepository<Recipe, String> {
 
             if (recipe.getInstructions() != null) {
                 existingRecipe.setInstructions(recipe.getInstructions());
+            }
+
+            if (recipe.isVegetarian() != existingRecipe.isVegetarian()) {
+                existingRecipe.setVegetarian(recipe.isVegetarian());
+            }
+
+            if (recipe.getServings() > 0) {
+                existingRecipe.setServings(recipe.getServings());
             }
 
             return save(existingRecipe);

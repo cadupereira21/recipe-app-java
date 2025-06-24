@@ -1,10 +1,12 @@
 package com.cpstudio.recipe_app.recipe.controller;
 
 import com.cpstudio.recipe_app.recipe.domain.Recipe;
-import com.cpstudio.recipe_app.recipe.dto.CreateRecipeRequest;
-import com.cpstudio.recipe_app.recipe.dto.PartialUpdateRecipeRequest;
-import com.cpstudio.recipe_app.recipe.dto.UpdateRecipeRequest;
+import com.cpstudio.recipe_app.recipe.dto.recipe.CreateRecipeRequest;
+import com.cpstudio.recipe_app.recipe.dto.recipe.PartialUpdateRecipeRequest;
+import com.cpstudio.recipe_app.recipe.dto.recipe.RecipeResponse;
+import com.cpstudio.recipe_app.recipe.dto.recipe.UpdateRecipeRequest;
 import jakarta.validation.Valid;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,11 +15,11 @@ import java.util.List;
 @RequestMapping("/api/recipe")
 public interface RecipeController {
 
-    @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Recipe> create(@Valid @RequestBody final CreateRecipeRequest recipe);
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RecipeResponse> create(@Valid @RequestBody final CreateRecipeRequest recipe);
 
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<Recipe>> getAllRecipes();
+    public ResponseEntity<List<RecipeResponse>> getAllRecipes();
 
     @GetMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity<Recipe> getRecipeById(@PathVariable final String id);

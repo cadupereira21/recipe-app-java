@@ -1,4 +1,4 @@
-package com.cpstudio.recipe_app.recipe.dto;
+package com.cpstudio.recipe_app.recipe.dto.recipe;
 
 public record PartialUpdateRecipeRequest(String title, String description, String ingredients, String instructions, boolean isVegetarian, int servings) {
     // This record can be used to partially update a recipe.
