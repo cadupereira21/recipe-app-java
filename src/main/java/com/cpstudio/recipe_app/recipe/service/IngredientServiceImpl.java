@@ -28,21 +28,6 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public Ingredient create(final String recipeId, final CreateIngredientRequest request) {
-        final Ingredient ingredient = IngredientMapper.toDomain(request);
-        ingredientRepository.save(ingredient);
-
-        if (!StringUtils.isBlank(recipeId)) {
-            recipeRepository.findById(recipeId).ifPresent(recipe -> {
-                recipe.getIngredients().add(ingredient);
-                recipeRepository.save(recipe);
-            });
-        }
-
-        return ingredient;
-    }
-
-    @Override
     public List<Ingredient> retrieveAll() {
         return ingredientRepository.findAll();
     }
@@ -56,16 +41,6 @@ public class IngredientServiceImpl implements IngredientService {
         return recipeRepository.findById(recipeId)
                 .map(Recipe::getIngredients)
                 .orElse(null);
-    }
-
-    @Override
-    public String delete(final String ingredientId) {
-        try {
-            ingredientRepository.deleteById(ingredientId);
-            return ingredientId;
-        } catch (DataIntegrityViolationException ex) {
-            throw new ForeignKeyConstraintException("Cannot delete ingredient with ID: " + ingredientId + " as it is associated with a recipe.");
-        }
     }
 
     @Override

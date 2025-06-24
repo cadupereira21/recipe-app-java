@@ -30,22 +30,8 @@ public class IngredientControllerImpl implements IngredientController {
     }
 
     @Override
-    public ResponseEntity<Ingredient> createIngredient(final String recipeId, final CreateIngredientRequest request) {
-        final Ingredient ingredient = ingredientService.create(recipeId, request);
-        return ResponseEntity.ok(ingredient);
-    }
-
-    @Override
     public ResponseEntity<Ingredient> updateIngredient(final String ingredientId, final UpdateIngredientRequest request) {
         final Ingredient updatedIngredient = ingredientService.update(ingredientId, request);
         return ResponseEntity.ofNullable(updatedIngredient);
-    }
-
-    @Override
-    public ResponseEntity<Void> deleteIngredient(String ingredientId) {
-        final String deletedIngredientId = ingredientService.delete(ingredientId);
-        return StringUtils.isBlank(deletedIngredientId) ?
-                ResponseEntity.notFound().build() :
-                ResponseEntity.ok().build();
     }
 }

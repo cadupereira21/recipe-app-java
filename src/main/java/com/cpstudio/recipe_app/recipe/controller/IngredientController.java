@@ -14,13 +14,7 @@ public interface IngredientController {
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<Ingredient>> getAllIngredients();
 
-    @PostMapping(path = "/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Ingredient> createIngredient(@RequestParam final String recipeId, @RequestBody final CreateIngredientRequest request);
-
     @PutMapping(path = "/", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Ingredient> updateIngredient(@RequestParam final String ingredientId, @RequestBody final UpdateIngredientRequest request);
-
-    @DeleteMapping(path = "/")
-    public ResponseEntity<Void> deleteIngredient(@RequestParam final String ingredientId);
 
 }

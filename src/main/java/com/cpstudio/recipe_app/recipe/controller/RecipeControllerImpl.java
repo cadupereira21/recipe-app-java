@@ -1,5 +1,6 @@
 package com.cpstudio.recipe_app.recipe.controller;
 
+import com.cpstudio.recipe_app.recipe.dto.ingredient.CreateIngredientRequest;
 import com.cpstudio.recipe_app.recipe.mapper.RecipeMapper;
 import com.cpstudio.recipe_app.recipe.domain.Recipe;
 import com.cpstudio.recipe_app.recipe.dto.recipe.CreateRecipeRequest;
@@ -13,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @AllArgsConstructor
@@ -62,5 +64,17 @@ public class RecipeControllerImpl implements RecipeController {
     public ResponseEntity<Recipe> partialUpdate(final String id, final PartialUpdateRecipeRequest recipe) {
         final Recipe updatedRecipe = recipeRepository.partialUpdateIfExists(RecipeMapper.partialUpdateRequestToDomain(id, recipe));
         return ResponseEntity.ofNullable(updatedRecipe);
+    }
+
+    @Override
+    public ResponseEntity<Void> addIngredientToRecipe(final String id, final Set<CreateIngredientRequest> ingredientRequest) {
+        recipeService.addIngredients(id, ingredientRequest);
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteIngredientFromRecipe(final String id, final Set<String> ingredientIds) {
+        recipeService.deleteIngredients(id, ingredientIds);
+        return null;
     }
 }
