@@ -1,5 +1,6 @@
 package com.cpstudio.recipe_app.recipe.service;
 
+import com.cpstudio.recipe_app.core.exception.BadRequestException;
 import com.cpstudio.recipe_app.core.exception.NotFoundException;
 import com.cpstudio.recipe_app.recipe.domain.Ingredient;
 import com.cpstudio.recipe_app.recipe.domain.Recipe;
@@ -9,10 +10,13 @@ import com.cpstudio.recipe_app.recipe.dto.recipe.UpdateRecipeRequest;
 import com.cpstudio.recipe_app.recipe.mapper.IngredientMapper;
 import com.cpstudio.recipe_app.recipe.mapper.RecipeMapper;
 import com.cpstudio.recipe_app.recipe.repository.RecipeRepository;
+import com.cpstudio.recipe_app.recipe.repository.RecipeSpecifications;
 import lombok.AllArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -60,6 +64,29 @@ public class RecipeServiceImpl implements RecipeService {
         recipe.getIngredients().removeIf(ingredient -> ingredientIds.contains(ingredient.getId()));
 
         recipeRepository.save(recipe);
+    }
+
+    @Override
+    public List<Recipe> search(final Optional<Boolean> isVegetarian, final Optional<Integer> servings, final Optional<Set<String>> includeIngredients, final Optional<Set<String>> excludeIngredients, final Optional<String> instruction) {
+        if (isVegetarian.isEmpty() && servings.isEmpty() && includeIngredients.isEmpty() && excludeIngredients.isEmpty() && instruction.isEmpty()) {
+            throw new BadRequestException("No search criteria provided");
+        }
+
+        Specification<Recipe> spec = Specification.allOf(
+                RecipeSpecifications.isVegetarian(isVegetarian.orElse(null)),
+                RecipeSpecifications.hasServings(servings.orElse(null)),
+                RecipeSpecifications.includesIngredients(includeIngredients.orElse(null)),
+                RecipeSpecifications.excludesIngredients(excludeIngredients.orElse(null)),
+                RecipeSpecifications.containsInstruction(instruction.orElse(null))
+        );
+
+        List<Recipe> recipes = recipeRepository.findAll(spec);
+
+        if (recipes.isEmpty()) {
+            throw new NotFoundException("No recipes found matching the provided criteria");
+        }
+
+        return recipes;
     }
 
     private Recipe retrieveById(final String recipeId) {

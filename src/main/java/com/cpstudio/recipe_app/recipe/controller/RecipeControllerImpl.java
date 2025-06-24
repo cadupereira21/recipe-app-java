@@ -14,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -43,8 +44,12 @@ public class RecipeControllerImpl implements RecipeController {
     }
 
     @Override
-    public ResponseEntity<List<Recipe>> getRecipesWithFilters(final boolean isVegetarian, final int servings) {
-        final List<Recipe> recipes = recipeRepository.findByIsVegetarianAndServings(isVegetarian, servings);
+    public ResponseEntity<List<Recipe>> getRecipesWithFilters(final Optional<Boolean> isVegetarian,
+                                                              final Optional<Integer> servings,
+                                                              final Optional<Set<String>> includeIngredients,
+                                                              final Optional<Set<String>> excludeIngredients,
+                                                              final Optional<String> instruction) {
+        final List<Recipe> recipes = recipeService.search(isVegetarian, servings, includeIngredients, excludeIngredients, instruction);
         return CollectionUtils.isEmpty(recipes) ? ResponseEntity.notFound().build() : ResponseEntity.ok(recipes);
     }
 

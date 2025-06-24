@@ -2,6 +2,7 @@ package com.cpstudio.recipe_app.recipe.repository;
 
 import com.cpstudio.recipe_app.recipe.domain.Recipe;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -9,19 +10,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RecipeRepository extends JpaRepository<Recipe, String> {
+public interface RecipeRepository extends JpaRepository<Recipe, String> , JpaSpecificationExecutor<Recipe> {
 
     @Query("SELECT r FROM Recipe r JOIN r.ingredients i WHERE i.id = :ingredientId")
     List<Recipe> findByIngredientId(@Param("ingredientId") final String ingredientId);
-
-    /**
-     * Finds recipes based on various filters.
-     *
-     * @param isVegetarian          whether the recipe is vegetarian
-     * @param servings              number of servings
-     * @return a list of recipes matching the filters
-     */
-    List<Recipe> findByIsVegetarianAndServings(final boolean isVegetarian, final int servings);
 
     default Recipe updateIfExists(final String recipeId, final Recipe recipe) {
         final Recipe existingRecipe = findById(recipeId).orElse(null);

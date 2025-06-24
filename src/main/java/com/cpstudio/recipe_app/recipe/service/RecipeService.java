@@ -7,6 +7,7 @@ import com.cpstudio.recipe_app.recipe.dto.recipe.UpdateRecipeRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface RecipeService {
@@ -25,5 +26,12 @@ public interface RecipeService {
 
     @Transactional
     public void deleteIngredients(final String recipeId, final Set<String> ingredientIds);
+
+    @Transactional
+    public List<Recipe> search(final Optional<Boolean> isVegetarian,
+                               final Optional<Integer> servings,
+                               final Optional<Set<String>> includeIngredients,
+                               final Optional<Set<String>> excludeIngredients,
+                               final Optional<String> instruction);
 
 }

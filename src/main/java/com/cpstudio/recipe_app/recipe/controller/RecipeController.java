@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RequestMapping("/api/recipe")
@@ -25,8 +26,13 @@ public interface RecipeController {
     @GetMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity<Recipe> getRecipeById(@PathVariable final String id);
 
-    @GetMapping(path = "/", produces = "application/json")
-    public ResponseEntity<List<Recipe>> getRecipesWithFilters(@RequestParam(required = false) final boolean isVegetarian, @RequestParam(required = false) final int servings);
+    @PostMapping(path = "/search/", produces = "application/json")
+    public ResponseEntity<List<Recipe>> getRecipesWithFilters(
+            @RequestParam(required = false) final Optional<Boolean> isVegetarian,
+            @RequestParam(required = false) final Optional<Integer> servings,
+            @RequestParam(required = false) final Optional<Set<String>> includeIngredients,
+            @RequestParam(required = false) final Optional<Set<String>> excludeIngredients,
+            @RequestParam(required = false) final Optional<String> instruction);
 
     @DeleteMapping(path = "/")
     public ResponseEntity<Void> delete(@RequestParam final String id);
