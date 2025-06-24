@@ -7,9 +7,11 @@ import com.cpstudio.recipe_app.recipe.dto.PartialUpdateRecipeRequest;
 import com.cpstudio.recipe_app.recipe.dto.UpdateRecipeRequest;
 import com.cpstudio.recipe_app.recipe.repository.RecipeRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class RecipeControllerImpl implements RecipeController {
@@ -35,6 +37,12 @@ public class RecipeControllerImpl implements RecipeController {
     public ResponseEntity<Recipe> getRecipeById(final String id) {
         final Recipe recipe = recipeRepository.findById(id).orElse(null);
         return ResponseEntity.ofNullable(recipe);
+    }
+
+    @Override
+    public ResponseEntity<List<Recipe>> getRecipesWithFilters(final boolean isVegetarian, final int servings) {
+        final List<Recipe> recipes = recipeRepository.findByIsVegetarianAndServings(isVegetarian, servings);
+        return CollectionUtils.isEmpty(recipes) ? ResponseEntity.notFound().build() : ResponseEntity.ok(recipes);
     }
 
     @Override

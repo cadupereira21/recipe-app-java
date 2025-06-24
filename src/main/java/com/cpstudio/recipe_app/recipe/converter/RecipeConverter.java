@@ -17,6 +17,8 @@ public abstract class RecipeConverter {
         recipe.setDescription(request.description());
         recipe.setIngredients(request.ingredients());
         recipe.setInstructions(request.instructions());
+        recipe.setVegetarian(request.isVegetarian());
+        recipe.setServings(request.servings());
 
         return recipe;
     }
@@ -32,6 +34,8 @@ public abstract class RecipeConverter {
         recipe.setDescription(request.description());
         recipe.setIngredients(request.ingredients());
         recipe.setInstructions(request.instructions());
+        recipe.setVegetarian(request.isVegetarian());
+        recipe.setServings(request.servings());
 
         return recipe;
     }
@@ -47,6 +51,8 @@ public abstract class RecipeConverter {
         recipe.setDescription(request.description() != null ? request.description() : null);
         recipe.setIngredients(request.ingredients() != null ? request.ingredients() : null);
         recipe.setInstructions(request.instructions() != null ? request.instructions() : null);
+        recipe.setVegetarian(request.isVegetarian());
+        recipe.setServings(request.servings());
 
         return recipe;
     }

@@ -4,8 +4,20 @@ import com.cpstudio.recipe_app.recipe.domain.Recipe;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Set;
+
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe, String> {
+
+    /**
+     * Finds recipes based on various filters.
+     *
+     * @param isVegetarian          whether the recipe is vegetarian
+     * @param servings              number of servings
+     * @return a list of recipes matching the filters
+     */
+    List<Recipe> findByIsVegetarianAndServings(final boolean isVegetarian, final int servings);
 
     default Recipe updateIfExists(final Recipe recipe) {
         if (recipe == null || !existsById(recipe.getId())) {

@@ -22,6 +22,9 @@ public interface RecipeController {
     @GetMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity<Recipe> getRecipeById(@PathVariable final String id);
 
+    @GetMapping(path = "/", produces = "application/json")
+    public ResponseEntity<List<Recipe>> getRecipesWithFilters(@RequestParam(required = false) final boolean isVegetarian, @RequestParam(required = false) final int servings);
+
     @DeleteMapping(path = "/")
     public ResponseEntity<Void> delete(@RequestParam final String id);
 
