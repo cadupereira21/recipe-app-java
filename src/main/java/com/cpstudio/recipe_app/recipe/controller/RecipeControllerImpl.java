@@ -8,7 +8,9 @@ import com.cpstudio.recipe_app.recipe.dto.recipe.PartialUpdateRecipeRequest;
 import com.cpstudio.recipe_app.recipe.dto.recipe.UpdateRecipeRequest;
 import com.cpstudio.recipe_app.recipe.repository.RecipeRepository;
 import com.cpstudio.recipe_app.recipe.service.RecipeService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +30,7 @@ public class RecipeControllerImpl implements RecipeController {
     @Override
     public ResponseEntity<Recipe> create(final CreateRecipeRequest recipe) {
         final Recipe createdRecipe = recipeService.create(recipe);
-        return ResponseEntity.ok(createdRecipe);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdRecipe);
     }
 
     @Override
@@ -74,12 +76,12 @@ public class RecipeControllerImpl implements RecipeController {
     @Override
     public ResponseEntity<Void> addIngredientToRecipe(final String id, final Set<CreateIngredientRequest> ingredientRequest) {
         recipeService.addIngredients(id, ingredientRequest);
-        return null;
+        return ResponseEntity.ok(null);
     }
 
     @Override
     public ResponseEntity<Void> deleteIngredientFromRecipe(final String id, final Set<String> ingredientIds) {
         recipeService.deleteIngredients(id, ingredientIds);
-        return null;
+        return ResponseEntity.ok(null);
     }
 }

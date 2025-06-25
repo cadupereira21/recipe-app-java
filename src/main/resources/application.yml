@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: recipe-app
+  datasource:
+    url: jdbc:postgresql://localhost:5432/
+    username: postgres
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+    resolve-schema-properties: true
+  swagger-ui:
+    enabled: true
+    path: /index.html
+
+resources:
+  generic:
+    id: Unique identifier for the recipe. Generated automatically.
+  recipe:
+    title: Title of the recipe.
+    description: Description of the recipe, providing additional details about it.
+    instructions: Instructions for preparing the recipe, detailing the steps to follow.
+    isVegetarian: Indicates whether the recipe is vegetarian.
+    servings: Number of servings the recipe yields.
+    ingredients: List of ingredients required for the recipe.
+  ingredient:
+    name: Name of the ingredient.
+    quantity: Quantity of the ingredient.
+    unit: Unit of measurement for the quantity (e.g., grams, cups).
